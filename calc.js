@@ -1,7 +1,8 @@
+
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
-    });
+});
 
 tests = {
     "1+2*3": 7,
@@ -20,17 +21,19 @@ equationOrder = [
     "-"
 ]   
 
-const testEquations = () => {
+const testEquations = (timing = false) => {
     for (let [equation, expectedResult] of Object.entries(tests)) {
         if (expectedResult == calculate(splitEquation(equation))) {
-            console.log("Passed ", equation)
+            if(!timing)
+                console.log("Passed ", equation)
         }
         else {
+            if(!timing){
             console.log("Failed ", equation)
             console.log("Expected: ", expectedResult)
             console.log("Result: ", calculate(splitEquation(equation)))
             console.log("Result: ", expectedResult == calculate(splitEquation(equation)))
-        }
+        }}
     }
 }
 
@@ -78,7 +81,7 @@ const calculate = (equation) => {
             }
             equation.splice(index-1, 3, result)
         }
-}
+    }
     return equation[0]
 }
 
@@ -86,8 +89,25 @@ const testing = true
 
 console.log("Testing mode set to :", testing, "\n")
 
+
+function run(fn, count, ...args) {
+    const start = performance.now()
+    for (let i = 0; i < count; i++) {
+        fn.apply(null, args, false)
+    }
+    return performance.now() - start
+}
+
+function timeTestEquations() {
+    [1, 10, 100, 1000, 10000, 100000].forEach(count => {
+        console.log(`Times(ms) for ${count} runs: `, run(testEquations, count, true))
+    })
+}
+
+
 if (testing) {
     testEquations()
+    timeTestEquations()
     readline.close()
 } else {
     readline.question('Enter your equation: ', equation => {
@@ -95,4 +115,3 @@ if (testing) {
         readline.close()
     });
 }
-
