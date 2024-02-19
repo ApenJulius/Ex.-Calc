@@ -84,10 +84,11 @@ const calculate = (equation) => {
 
 const testing = true
 
-console.log("Testing mode set to :", testing)
-console.log("")
+console.log("Testing mode set to :", testing, "\n")
+
 if (testing) {
     testEquations()
+    readline.close()
 } else {
     readline.question('Enter your equation: ', equation => {
         console.log("Result: ", calculate(splitEquation(equation)))
