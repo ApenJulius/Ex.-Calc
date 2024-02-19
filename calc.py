@@ -1,4 +1,5 @@
 import re
+import time
 
 tests = {
     "1+2*3": 7,
@@ -10,19 +11,33 @@ tests = {
     "231*13-34*34": 1847
 }
 
-
-
-def splitEquation(equation):
-    return re.findall(r'\d+|[+\-*/]', equation)
-
-
 equationOrder = [
     "*",
     "/",
     "+",
     "-"
-]   
+]
 
+def time_test_equations():
+    for count in [1, 10, 100, 1000, 10000, 100000]:
+        print(f'Time(ms) for {count} runs: {run(test_equations, count, True)*1000}')
+
+
+def run(fn, count, *args):
+    start = time.perf_counter()
+    for _ in range(count):
+        fn(*args)
+    end = time.perf_counter()
+    return end - start
+
+def test_equations(timing = False):
+    for equation, expectedResult in tests.items():
+        assert calculate(splitEquation(equation)) == expectedResult
+        if not timing:
+            print("Passed ", equation)
+
+def splitEquation(equation):
+    return re.findall(r'\d+|[+\-*/]', equation)
 
 def calculate(equation):
     for symbol in equationOrder:
@@ -57,14 +72,15 @@ def subtract(num1, num2):
 
 
 if __name__ == "__main__":
-    testing = False
+    testing = True
     print("testing mode set to :", testing)
     if testing:
-        for equation, expectedResult in tests.items():
-            print(f"Testing {equation}...")
-            assert calculate(splitEquation(equation)) == expectedResult
-            print("Passed as", expectedResult)
+        test_equations()
+        time_test_equations()
     else:
         equation = input("\nGive an equation:")
         result = calculate(splitEquation(equation))
         print(f"The result is: {result}")
+
+
+
