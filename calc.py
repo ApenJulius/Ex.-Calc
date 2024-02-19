@@ -24,7 +24,7 @@ equationOrder = [
 ]   
 
 
-def checkEquation(equation):
+def calculate(equation):
     for symbol in equationOrder:
         while symbol in equation:
             index = equation.index(symbol)
@@ -60,11 +60,11 @@ if __name__ == "__main__":
     testing = False
     print("testing mode set to :", testing)
     if testing:
-        for equation, result in tests.items():
+        for equation, expectedResult in tests.items():
             print(f"Testing {equation}...")
-            assert checkEquation(splitEquation(equation)) == result
-            print("Passed as", result)
+            assert calculate(splitEquation(equation)) == expectedResult
+            print("Passed as", expectedResult)
     else:
         equation = input("\nGive an equation:")
-        result = checkEquation(splitEquation(equation))
+        result = calculate(splitEquation(equation))
         print(f"The result is: {result}")
