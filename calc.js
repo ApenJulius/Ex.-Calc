@@ -20,6 +20,19 @@ equationOrder = [
     "-"
 ]   
 
+const testEquations = () => {
+    for (let [equation, expectedResult] of Object.entries(tests)) {
+        if (expectedResult == calculate(splitEquation(equation))) {
+            console.log("Passed ", equation)
+        }
+        else {
+            console.log("Failed ", equation)
+            console.log("Expected: ", expectedResult)
+            console.log("Result: ", calculate(splitEquation(equation)))
+            console.log("Result: ", expectedResult == calculate(splitEquation(equation)))
+        }
+    }
+}
 
 const multiply = (num1, num2) => {
     return num1 * num2
@@ -69,26 +82,13 @@ const calculate = (equation) => {
     return equation[0]
 }
 
-
 const testing = true
 
 console.log("Testing mode set to :", testing)
 console.log("")
 if (testing) {
-    
-    for (let [equation, expectedResult] of Object.entries(tests)) {
-        if (expectedResult == calculate(splitEquation(equation))) {
-            console.log("Passed ", equation)
-        }
-        else {
-            console.log("Failed ", equation)
-            console.log("Expected: ", expectedResult)
-            console.log("Result: ", calculate(splitEquation(equation)))
-            console.log("Result: ", expectedResult == calculate(splitEquation(equation)))
-        }
-    }
-}
-else {
+    testEquations()
+} else {
     readline.question('Enter your equation: ', equation => {
         console.log("Result: ", calculate(splitEquation(equation)))
         readline.close()
